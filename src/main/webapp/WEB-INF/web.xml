@@ -89,5 +89,4 @@
     <servlet-name>ItemToTrip</servlet-name>
     <url-pattern>/Trip/Item/Add</url-pattern>
   </servlet-mapping>
-  
 </web-app>

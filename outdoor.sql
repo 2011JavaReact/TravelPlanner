@@ -1,29 +1,42 @@
-Drop Table if Exists Equipment;
+Drop Table if Exists Equipment Cascade;
 create Table Equipment(--To include Clothing or to not
     equipId SERIAL PRIMARY key, --Int GENERATED ALWAYS AS identity,
     equipName VarChar(255) not null,
     price float,
     isFood Boolean
 );
+
+Drop Table if Exists Trip Cascade;
+Create Table Trip(
+    tripId Serial PRIMARY KEY, 
+    userId Int not null, --Person Whom trip belongs to
+    tripName VarChar(255) not null
+);
+
+Drop Table if Exists EquipmentTrip;
+Create table EquipmentTrip( 
+    tripId int references Trip(tripId),
+    equipId int references equipment(equipId),
+    quantity int
+);
+
+select * from equipmenttrip e;
+
+Select eq.equipname, eq.price, et.quantity, eq.equipid 
+from equipmentTrip et 
+INNER JOIN equipment eq 
+ON et.equipId = eq.equipId 
+where et.tripId = (1) AND eq.isFood = false;
+
+select * from equipment where isfood = (true);
+
 Drop Table if Exists users;
 Create Table users(
 	userId SERIAL PRIMARY KEY ,
 	username varchar(255),
-	salt varchar(512),
-	password varchar (512),
+	salt bytea,
+	password bytea,
     special Boolean --Whether or not user is admin
-);
-Drop Table if Exists Trip;
-Create Table Trip(
-    tripId Int SERIAL PRIMARY KEY, 
-    userId Int not null, --Person Whom trip belongs to
-    tripName VarChar(255) not null
-);
-Drop Table if Exists EquipmentTrip;
-Create table EquipmentTrip( 
-    tripId int not null,
-    equipId int,
-    quantity int
 );
 
 INSERT INTO Equipment 
@@ -48,7 +61,6 @@ VALUES
 ('Backpackers Pantry Potatoes & Gravy with Beef - 2 count pouch', 9.99, true),
 ('Potato Soup', 1.85, true),
 ('Rice Sides- Brocoli and Cheese', 1.00, true),
-
 ('tent', 1.99, false),
 ('sleeping bag', 1.99, false),
 ('water filter', 1.99, false),
@@ -57,3 +69,5 @@ VALUES
 ('clothing', 3.99, false);
 
 select * from users;
+select * from trip t;
+Select * from trip where userid = 1;

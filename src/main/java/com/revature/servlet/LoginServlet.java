@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.swing.plaf.synth.SynthSeparatorUI;
 
 import org.apache.log4j.Logger;
 
@@ -71,11 +72,12 @@ public class LoginServlet extends HttpServlet {
 		{
 			session.setAttribute("user", p);
 			String insertedUserJSON = objectMapper.writeValueAsString(p);
-			
 			response.getWriter().append(insertedUserJSON);
 			response.setContentType("application/json");
-			response.setStatus(201);
+			response.setStatus(200);
 		}
+		else
+		response.getWriter().append("user not found");
 	}
 
 	/**

@@ -11,7 +11,11 @@ import com.revature.beans.Trip;
 public class TripDAO {
 	DatabaseManager db = new DatabaseManager();
 	
-	
+	/**
+	 * Retrieves all the trips belonging to that user
+	 * @param userId
+	 * @return
+	 */
 	public ArrayList<Trip> getAllTrips(int userId){
 		ArrayList<Trip> trips = new ArrayList<Trip>();
 		String sqlQuery = "Select * from Trip where userId = ?;";
@@ -21,7 +25,7 @@ public class TripDAO {
 			ResultSet rs = stmt.executeQuery();
 			while (rs.next()) {
 				int id = rs.getInt(1);
-				String name = rs.getString(2);
+				String name = rs.getString(3);
 				Trip trip = new Trip(id, name);
 				trips.add(trip);
 			}
@@ -32,6 +36,14 @@ public class TripDAO {
 		
 		return trips;
 	}
+	/**
+	 * Adds an item to the specified trip
+	 * @param tripId
+	 * @param userId
+	 * @param quantity
+	 * @param equipId
+	 * @return
+	 */
 	public boolean AddItemToTrip(int tripId, int userId, int quantity, int equipId){
 		String sql = "Select quantity from equipmentTrip where userId = ? AND tripId = ?;";
 		try(Connection connection = db.getLocalConnection("OutdoorApp", "postgres", "myLocal"))
@@ -79,6 +91,13 @@ public class TripDAO {
 		}
 		return false;
 	}
+	/**
+	 * updates the specified trips name
+	 * @param userId
+	 * @param tripId
+	 * @param newName
+	 * @return
+	 */
 	public Trip updateTripName(int userId, int tripId, String newName)
 	{
 		String sql = "Update Trip SET tripName = ? where userId =? AND tripId = ?;";
@@ -99,6 +118,12 @@ public class TripDAO {
 		}
 		return null;
 	}
+	/**
+	 * Creates an instance of a trip
+	 * @param userId
+	 * @param name
+	 * @return
+	 */
 	public Trip createTrip(int userId, String name) {
 		int autoId =0;
 		String sqlQuery = "insert into Trip"
@@ -127,6 +152,11 @@ public class TripDAO {
 		}
 		return new Trip(autoId, name);
 	}
+	/**
+	 * Selects only the non food items in the trip
+	 * @param tripId
+	 * @return
+	 */
 	public ArrayList<Equipment> SelectEquipmentTrip(int tripId) {
 		ArrayList<Equipment> items = new ArrayList<Equipment>();
 		String sqlQuery = "Select eq.equipname, eq.price, et.quantity, eq.equipid"
@@ -152,6 +182,11 @@ public class TripDAO {
 		}
 		return items;
 	}
+	/**
+	 * Selects the food on the trip
+	 * @param tripId
+	 * @return
+	 */
 	public ArrayList<Equipment> SelectFoodTrip(int tripId) {
 		ArrayList<Equipment> items = new ArrayList<Equipment>();
 		String sqlQuery =  "Select eq.equipname, eq.price, et.quantity, eq.equipid "
@@ -177,6 +212,12 @@ public class TripDAO {
 		}
 		return items;
 	}
+	/**
+	 * Clears items on the trip
+	 * To be called before deleting trips to free up space in the data base
+	 * @param tripId
+	 * @return
+	 */
 	public boolean clearItems(int tripId) {
 		String sqlQuery = "Delete from equipmentTrip where tripId = ?";
 		try(Connection connection = db.getLocalConnection("OutdoorApp", "postgres", "myLocal")){
@@ -188,6 +229,11 @@ public class TripDAO {
 		}
 		return false;
 	}
+	/**
+	 * allows for the deletion of trips
+	 * @param tripId
+	 * @return
+	 */
 	public boolean deleteTrip(int tripId)
 	{
 		clearItems(tripId);
@@ -201,6 +247,12 @@ public class TripDAO {
 		}
 		return false;
 	}
+	/**
+	 * deletes items from trips in theory
+	 * @param tripId
+	 * @param equipId
+	 * @return
+	 */
 	public boolean deleteItem(int tripId, int equipId) {
 		String sqlQuery = "Select et.quantity"
 				+ " from equipmentTrip et "
@@ -230,6 +282,12 @@ public class TripDAO {
 		}
 		return false;
 	}
+	/**
+	 * Get a specific trip
+	 * @param tripId
+	 * @param userId
+	 * @return
+	 */
 	public Trip GetATrip(int tripId, int userId)
 	{
 		String sql = "Select * from trip where tripId = ?;";

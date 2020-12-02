@@ -12,6 +12,10 @@ import com.revature.beans.Trip;
 
 public class ItemDAO {
 	DatabaseManager db = new DatabaseManager();
+	/**
+	 * Gets all items from the database
+	 * @return
+	 */
 	public ArrayList<Equipment> getAllItems(){
 		ArrayList<Equipment> items = new ArrayList<Equipment>();
 		String sqlQuery = "Select * from Equipment;";

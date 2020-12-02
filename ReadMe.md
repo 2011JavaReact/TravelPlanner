@@ -27,5 +27,5 @@ This will add an item to the user's selected trip.
 ### /Trip/Edit
 This allows the user to edit the names of the trips they create.
 They need to login and then select the trip they wish to edit. From there they can use this command to change the name of that session.
-## Quick Start Guide
-1. 
+## Future Improvements
+There is a frame work to delete trips, delete items, and to show items. The servlets have either not been created or the routing for this functionality isn't set up yet.

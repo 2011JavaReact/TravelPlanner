@@ -56,7 +56,7 @@ public class CreateTripServlet extends HttpServlet {
 		System.out.println(jsonString);
 		try {
 		TripTemplate tripData = objectMapper.readValue(jsonString, TripTemplate.class);
-		System.out.println("after tripData");
+		System.out.println(tripData.getName());
 		People p = (People)session.getAttribute("user");
 		Trip t = TM.createTrip(p.getId(), tripData.getName());
 		if(t != null)

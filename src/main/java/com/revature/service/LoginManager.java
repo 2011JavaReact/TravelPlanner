@@ -26,7 +26,11 @@ public class LoginManager {
 	public LoginManager(){
 		this.db = new DatabaseManager();
 	}
-	
+	/**
+	 * Creates a user
+	 * @param user
+	 * @return
+	 */
 	public People createUser(UserTemplate user) {
 		int autoId = -1;
 		String HashedPassword ="";
@@ -72,6 +76,12 @@ public class LoginManager {
 		
 		return new People(user.getUsername(), HashedPassword, autoId, false);
 	}
+	/**
+	 * Allows for the creation of admin users
+	 * @param user
+	 * @param adminKey
+	 * @return
+	 */
 	public People createUser(UserTemplate user, String adminKey) {
 		if(adminKey == this.adminKey)
 		{
@@ -122,6 +132,13 @@ public class LoginManager {
 		else
 			return null;
 	}
+	/**
+	 * Hashes passwords
+	 * @param password
+	 * @param salt
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 */
 	private byte[] hashPass(String password , byte[] salt) throws NoSuchAlgorithmException {
 		// TODO Auto-generated method stub
 		Hasher bcrypter = BCrypt.withDefaults();
@@ -133,7 +150,12 @@ public class LoginManager {
 		//byte[] hashedPassword = md.digest(password.getBytes(StandardCharsets.UTF_8));
 		//return hashedPassword;
 	}
-
+	/**
+	 * logs users into the program and verifies them
+	 * @param username
+	 * @param password
+	 * @return
+	 */
 	public People logUser(String username, String password) {
 		String hashedPassword;
 	    byte[] salt;
@@ -164,6 +186,12 @@ public class LoginManager {
 	    	return null;
 	    }
 	}
+	/**
+	 * Adds a salt for the password
+	 * @return
+	 * @throws NoSuchAlgorithmException
+	 * @throws NoSuchProviderException
+	 */
 	public byte[] getSalt() throws NoSuchAlgorithmException, NoSuchProviderException {
 		SecureRandom sr = SecureRandom.getInstance("SHA1PRNG", "SUN");
 		byte[] salt = new byte[16];

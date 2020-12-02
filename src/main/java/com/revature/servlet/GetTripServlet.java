@@ -47,12 +47,18 @@ public class GetTripServlet extends HttpServlet {
 		}
 		else {
 			People p = (People) session.getAttribute("user");
+			if(p != null)
+			{
 			ArrayList<Trip> trips = trip.getAllTrips(p.getId());
 			String jsonString = "";
 			for(Trip t : trips)
 			{
 				jsonString = objectMapper.writeValueAsString(t);
 				response.getWriter().append(jsonString);
+			}
+			}
+			else {
+				response.getWriter().append("Please login");
 			}
 		}
 				
